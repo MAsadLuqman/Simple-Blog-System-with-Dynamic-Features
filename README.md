@@ -49,18 +49,98 @@ We would like to extend our thanks to the following sponsors for funding Laravel
 - **[byte5](https://byte5.de)**
 - **[OP.GG](https://op.gg)**
 
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Simple Blog System with Dynamic Features
+Developer: Asad Luqman
+Internship: Hybrid Media Works
+Technology Stack: Laravel, AJAX, Select2, TinyMCE, DOMpdf, Spatie, Queue Jobs
+Project Overview
+The "Blogs" project is a web-based blogging system developed using Laravel. It includes
+authentication, user management, posts with tags, comments, search, filtering, and role-based
+access control.
+Project Features
+1. Laravel Installation & Setup
+• Installed Laravel framework
+• Configured environment settings (database, mail, etc.)
+2. Authentication System
+• User login
+• User registration via email
+• Password recovery through email with expiration
+• Login as Admin & User by Role
+o Users log in based on their assigned role (Admin/User)
+o Admins have full access
+o Users can only view their own content and perform actions permitted to them
+3. User Management (CRUD)
+• Create, Read, Update, and Delete (CRUD) operations for users
+• Live search input using AJAX
+• Show Admin & User View Based on Role
+o Admins can see all users
+o Users can only view their own data
+4. MVC Pattern Understanding
+• Implemented Model-View-Controller (MVC) architecture
+5. Tags Management (AJAX CRUD)
+• Add, update, delete, and list tags using AJAX
+6. Post Management (CRUD)
+• Add/edit posts with:
+o Title
+o Image
+o Description using TinyMCE editor
+o Multiple tags selection using Select2
+7. Comments Section (Polymorphic Relationship)
+• Implemented polymorphic relationship for comments
+• Users can comment on posts
+• Display comments with:
+o User name
+o Profile picture
+o Date
+• Used lazy loading and AJAX for displaying comments
+8. Model Relationships Understanding
+• One-to-One
+• One-to-Many
+• Many-to-Many
+• HasOne & HasMany
+• Implemented:
+o Many-to-Many (Posts & Tags)
+o One-to-Many (Users & Posts)
+o Many-to-Many Polymorphic (Comments & Posts)
+9. Advanced Features
+• Live Search in User Table: Implemented AJAX-based search
+• Post Filtering System:
+o Search by Date
+o Search by Title
+o Search by Tags
+o Used AJAX on form submission
+• Generate PDF: Created PDF documents using DOMpdf
+10. Role & Permission Management
+• Implemented user roles and permissions using Spatie package
+• Middleware for login and permission checks
+• Custom middleware for role validation
+• Used Laravel’s can function for permission validation
+• Restricted Views Based on Roles
+o Admins can manage all users
+o Users can only manage their own content
+11. Email Functionality
+• Sending emails using Laravel Mailable
+• Implemented email queue jobs for efficient email sending
+12. Upload Project to GitHub Using GitHub Desktop
+1. Initialize a Git Repository:
+o Open GitHub Desktop.
+o Click File > New Repository.
+o Enter your project name and set the local path.
+o Click Create Repository.
+2. Add Project Files:
+o Ensure .gitignore includes vendor/, .env, and other sensitive files.
+o Commit all files in GitHub Desktop.
+3. Publish to GitHub:
+o Click Publish Repository.
+o Choose your GitHub account and repository visibility.
+o Click Publish Repository.
+4. Push Future Changes:
+o Open GitHub Desktop, check for changes, commit, and push to origin.
+Conclusion
+This project provides a robust blogging system with authentication, CRUD operations, AJAXbased functionalities, advanced relationships, role-based access, and email notifications. The
+implementation of various Laravel features ensures a scalable and maintainable application.
+Future Enhancements
+• Implement post approval system for admins
+• Add user profiles and dashboards
+• Optimize AJAX calls for better performance
+• Improve UI/UX with better frontend design
