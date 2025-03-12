@@ -1,0 +1,280 @@
+/*blog style*/
+.blog-master .card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+    border-radius: 10px;
+}
+
+.blog-master .card:hover {
+    transform: scale(1.05);
+}
+
+.blog-master .card img {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.blog-master .pagination .page-item .page-link {
+    border-radius: 10px;
+    margin: 2px;
+    transition: all 0.3s ease-in-out;
+}
+
+.blog-master .pagination .page-item.active .page-link {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: #fff;
+}
+
+.blog-master .pagination .page-item .page-link:hover {
+    background-color: #0056b3;
+    color: #fff;
+}
+/*login and register css*/
+/* General Styling */
+.login-general {
+    background: linear-gradient(135deg, #2c3e50, #34495e);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Logo Styling */
+.login-general .logo-container {
+    margin-bottom: 20px;
+}
+
+.login-general .logo {
+    height: 60px;
+}
+
+/* Card Styling */
+.login-general .login-card .card {
+    width: 400px;
+    border-radius: 10px;
+    overflow: hidden;
+
+}
+.login-general .card {
+    width: 600px;
+    border-radius: 10px;
+    overflow: hidden;
+    text-align: center;
+
+}
+.login-general .card-header{
+    background-color: #2c3e50;
+    color: white;
+    padding: 15px;
+}
+
+/* Input Fields with Icons */
+.login-general .input-icon {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.login-general .input-icon i {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #2c3e50;
+    font-size: 18px;
+}
+
+.login-general .input-icon input {
+    padding-left: 35px;
+    border-radius: 8px;
+}
+
+.login-general .input-icon input:focus {
+    box-shadow: 0 0 10px rgba(0, 150, 255, 0.5);
+}
+
+/* Custom File Input */
+.login-general .file-input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.login-general .file-input {
+    display: none;
+}
+
+.login-general .file-input-label {
+    padding: 10px 20px;
+    margin-top: 10px;
+    background-color: #34495e;
+    color: white;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.login-general .file-input-label:hover {
+    background-color: #2c3e50;
+}
+
+.login-general .file-input-label i {
+    margin-right: 10px;
+}
+
+/* Profile Preview */
+.login-general .profile-preview {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.login-general .profile-preview img {
+    width: 80px;
+    height: 80px;
+
+    object-fit: cover;
+    border: 1px solid #2c3e50;
+}
+
+/* Button Hover Effect */
+.login-general .btn-primary {
+    background-color: #34495e;
+    border: none;
+}
+
+.login-general .btn-primary:hover {
+    background-color: #2c3e50;
+    transform: scale(1.05);
+    transition: transform 0.3s;
+}
+
+/*login and register css*/
+/* General Styling */
+.sidebar-master .sidebar-general{
+    display: flex;
+    background-color: #f5f6fa;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Sidebar Styling */
+.sidebar-master .sidebar {
+    width: 240px;
+    height: 100vh;
+    background: linear-gradient(135deg, #2c3e50, #34495e);
+    color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding-top: 20px;
+    transition: all 0.3s;
+    z-index: 999;
+}
+.sidebar-master .sidebar .logo {
+    text-align: center;
+    padding: 15px;
+}
+.sidebar-master .sidebar .logo img {
+    width: 180px;
+    transition: all 0.3s ease-in-out;
+}
+.sidebar-master .collapsed .logo img {
+    width: 50px;
+
+}
+.sidebar-master .sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+.sidebar-master .sidebar ul li {
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: 0.3s;
+    position: relative;
+}
+.sidebar-master .sidebar ul li i {
+    width: 25px;
+    margin-right: 15px;
+}
+.sidebar-master .sidebar ul li:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Collapsed Sidebar */
+.sidebar-master .collapsed {
+    width: 80px;
+}
+.collapsed .sidebar-text {
+    display: none;
+}
+
+
+/* Content Area */
+.sidebar-master .content {
+    margin-left: 260px;
+    padding: 20px;
+    width: 100%;
+    transition: margin-left 0.3s;
+}
+.sidebar-master .collapsed + .content {
+    margin-left: 80px;
+}
+
+/* Navbar */
+.sidebar-master .navbar {
+    background-color: #2c3e50;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: white;
+    position: fixed;
+    width: calc(100% - 240px);
+    left: 240px;
+    top: 0;
+    transition: left 0.3s, width 0.3s;
+    z-index: 1;
+}
+.sidebar-master .collapsed + .navbar {
+    width: calc(100% - 80px);
+    left: 80px;
+}
+.sidebar-master .navbar .toggle-btn {
+    font-size: 22px;
+    cursor: pointer;
+}
+.sidebar-master .navbar .user-menu {
+    display: flex;
+    align-items: center;
+}
+.dropdown-menu {
+    min-width: 160px;
+    border-radius: 8px;
+    overflow: hidden;
+
+}
+
+.sidebar-master .dropdown-item i {
+    width: 20px;
+    text-align: center;
+    z-index: 999;
+}
+
+.sidebar-master .dropdown-toggle::after {
+    display: none; /* Hide default Bootstrap arrow */
+}
+.sidebar-master .sidebar-link{
+    text-decoration: none;
+    color: white;
+}
+.alert{
+    height: 50px;
+    padding-bottom: 10px;
+    margin-top: 20px;
+}
