@@ -55,6 +55,27 @@
                     <p class="text-center mt-3">
                         Don't have an account? <a href="{{route('register')}}">Register</a>
                     </p>
+                    <div>
+                        <p class="text-center fw-bold">Or <br> Login With</p>
+                    </div>
+                    <div class="d-flex justify-content-center gap-3">
+                        <!-- Google Login -->
+                        <a href="{{ route('login.google') }}" class="btn btn-light border shadow-sm d-flex align-items-center px-3">
+                            <i class="fab fa-google text-danger me-2"></i> Google
+                        </a>
+
+                        <!-- Facebook Login -->
+                        <a href="#" class="btn btn-primary d-flex align-items-center px-3 text-white">
+                            <i class="fab fa-facebook-f me-2"></i> Facebook
+                        </a>
+
+                        <!-- GitHub Login -->
+                        <a href="{{route('login.github')}}" class="btn btn-dark d-flex align-items-center px-3 text-white">
+                            <i class="fab fa-github me-2"></i> GitHub
+                        </a>
+                    </div>
+
+
                 </form>
             </div>
         </div>

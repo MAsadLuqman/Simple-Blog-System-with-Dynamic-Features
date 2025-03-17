@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\{BlogController, CommentController,MailController};
+use App\Http\Controllers\{BlogController, CommentController, MailController, SocialController};
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\TagController;
@@ -19,6 +19,13 @@ Route::get('password/reset', [UserController::class, 'passwordReset'])->name('pa
 Route::post('password/email', [UserController::class, 'sendResetLinkEmail'])->name('password.email');
 Route::get('password/reset/{id}/{time}', [UserController::class, 'verifyResetLink'])->name('update.password');
 Route::post('password/reset/{id}', [UserController::class, 'updatePassword'])->name('update_password');
+
+Route::controller(SocialController::class)->group(function () {
+    Route::get('/login/google', 'redirectToGoggle')->name('login.google');
+    Route::get('/login/google/callback', 'handleGoggleCallback')->name('login.google.callback');
+    Route::get('/login/github', 'redirectToGithub')->name('login.github');
+    Route::get('/login/github/callback', 'handleGithubCallback')->name('login.github.callback');
+});
 
 Route::group(['middleware' => ['auth','verified']], function () {
     Route::get('/enable-2fa/{id}', [UserController::class,'enable2Fa'])->name('enable-2fa');
