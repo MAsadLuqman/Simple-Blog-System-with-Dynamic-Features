@@ -10,17 +10,28 @@ use App\Mail\SendAuthMail;
 use App\Models\Post;
 use App\Models\Tag;
 use App\Models\User;
+use App\Services\ImageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
+use Laravel\Sanctum\HasApiTokens;
+use League\Config\Exception\ValidationException;
 use phpDocumentor\Reflection\DocBlock\Tags\Return_;
+use PragmaRX\Google2FAQRCode\Google2FA;
 use Spatie\Permission\Models\Permission;
 use PDF;
+use Svg\Tag\Image;
 
 class UserController extends Controller
 {
+    public ImageService $imageService;
+    public function __construct()
+    {
+        $this->imageService = new ImageService();
+    }
     public function index()
     {
         $users = User::paginate();
@@ -38,14 +49,18 @@ class UserController extends Controller
 
         $credentials = $request->validated();
         if (Auth::attempt($credentials)) {
+            $user = Auth::user();
             if(Auth::user()->email_verified_at == NULL){
-                $user = Auth::user();
                 $this->sendmail($user);
                 Auth::logout();
                 return redirect()->route('login')->with('error', 'Email are not Verified');
             }
-            return redirect()->Route('dashboard');
-        } else {
+            if(!is_null(auth()->user()->google2fa_secret)){
+                return view('2fa');
+            }
+            return redirect()->route('dashboard');
+        }
+        else {
             return redirect()->route('login')->with('error', 'Invalid Credentials');
         }
     }
@@ -62,9 +77,7 @@ class UserController extends Controller
     public function register_save(StoreUserRequest $request)
     {
         $data = $request->validated();
-        $imageName = time() . '.' . $request->image->extension();
-        $image = $request->file('image');
-        $image->storeAs('images', $imageName, ['disk' => 'public']);
+        $imageName = $this->imageService->saveImage($request->file('image'), 'images');
         $data['image'] = $imageName;
         $data['password'] = Hash::make($data['password']);
         $user = User::create($data);
@@ -232,5 +245,61 @@ class UserController extends Controller
         $pdf = PDF::loadView('users.pdf', $data);
 
         return $pdf->download('users.pdf');
+    }
+
+    public function login_2fa(){
+        return view('2fa');
+    }
+
+    public function enable2Fa(Request $request ,$id){
+
+        $user = User::findorfail($id);
+        if($user){
+            $user = auth()->user();
+            $google2fa = new Google2FA();
+            $secretKey = $google2fa->generateSecretKey();
+            $qrCode = $google2fa->getQRCodeInline(
+                config('app.name'),
+                $user->email,
+                $secretKey
+            );
+            // Remove XML tag
+            $svgContent = preg_replace('/<\?xml.*?\?>\s*/', '', $qrCode);
+            $filePath = 'images/qr';
+            if (!file_exists(storage_path($filePath))) {
+                mkdir($filePath, 0777, true);
+            }
+           Storage::disk('public')->put($filePath.'/qr.svg', $svgContent);
+            return view('users.two-way-auth', compact('secretKey', 'qrCode','user'));
+        }
+
+    }
+    public function verify2Fa(Request $request, $id){
+        $request->validate([
+            'otp' => 'required|numeric|digits:6',
+        ]);
+        $user = User::findorfail($id);
+        $google2fa = new Google2FA();
+        if($request->ajax()){
+            if ($google2fa->verifyKey($request->google2fa_secret, $request->otp)) {
+                $user->update(['google2fa_secret' => $request->google2fa_secret]);
+                return response()->json(['status'=>true,'success'=>'2 Factor Authentication added successfully']);
+            } else {
+                return response()->json(['status'=>false,'success'=>'otp are invalid']);
+            }
+
+        }
+    }
+    public function verifyotp(Request $request)
+    {
+        $user = Auth::user();
+        $google2fa = new Google2FA();
+
+        // Verify OTP
+        if ($google2fa->verifyKey($user->google2fa_secret, $request->otp)) {
+            return redirect()->route('dashboard');
+        } else {
+            return redirect()->back()->with('error', 'Invalid OTP. Please try again.');
+        }
     }
 }

@@ -15,46 +15,28 @@
 <body>
 <div class="login-general">
     <div class="logo-container">
-        <img src="{{asset('/image/hybrid_web_logo.png')}}" alt="Company Logo" class="logo">
+        <img src="{{ asset('/image/hybrid_web_logo.png') }}" alt="Company Logo" class="logo">
     </div>
     <div class="login-card">
         <div class="card">
             <div class="card-header">
-                <h4 class="text-center">Login</h4>
+                <h4 class="text-center">Two Factor Authentication</h4>
             </div>
 
             <div class="card-body">
-                <form action="{{route('login_match')}}" method="get">
+                <form action="{{ route('verifyotp') }}" method="post">
                     @csrf
-                    <div class="mb-3 input-icon">
-                        <i class="fas fa-envelope"></i>
-                        <input type="email" name="email" class="form-control" id="loginEmail" value="{{ old('email') }}" placeholder="Enter your email">
-                        @error('email')
-                        <span class="alert text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-
+                    <p>please enter your one-time Password to complete login</p>
                     <div class="mb-3 input-icon">
                         <i class="fas fa-lock"></i>
-                        <input type="password" name="password" class="form-control" id="loginPassword" placeholder="Enter your password" value="{{old('email')}}">
+                        <input type="number" name="otp" class="form-control" id="loginPassword" placeholder="Enter OTP">
                     </div>
                     <div>
                         @error('password')
                         <span class="alert text-danger">{{ $message }}</span>
                         @enderror
                     </div>
-
-                    <!-- Forgot Password Link -->
-                    <p class="text-end">
-                        <a href="{{route('password.reset')}}" class="text-decoration-none">Forgot Password?</a>
-                    </p>
-
                     <button type="submit" class="btn btn-primary w-100">Login</button>
-
-
-                    <p class="text-center mt-3">
-                        Don't have an account? <a href="{{route('register')}}">Register</a>
-                    </p>
                 </form>
             </div>
         </div>
@@ -64,23 +46,23 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
 
-@if (Session::has('success'))
-        $(document).ready(function (){
-            toastr.options = {
-                "progressBar" : true,
-            }
-            toastr.success("{{ Session::get('success') }}");
-        });
-@endif
+    @if (Session::has('success'))
+    $(document).ready(function (){
+        toastr.options = {
+            "progressBar" : true,
+        }
+        toastr.success("{{ Session::get('success') }}");
+    });
+    @endif
 
-@if (Session::has('error'))
-        $(document).ready(function (){
-            toastr.options = {
-                "progressBar" : true,
-            }
-            toastr.error("{{ Session::get('error') }}");
-        });
-@endif
+    @if (Session::has('error'))
+    $(document).ready(function (){
+        toastr.options = {
+            "progressBar" : true,
+        }
+        toastr.error("{{ Session::get('error') }}");
+    });
+    @endif
 </script>
 </body>
 </html>

@@ -1,8 +1,6 @@
 <?php
 
-use App\Http\Controllers\BlogController;
-use App\Http\Controllers\CommentController;
-use App\Http\Controllers\MailController;
+use App\Http\Controllers\{BlogController, CommentController,MailController};
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\TagController;
@@ -11,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'login')->name('login');
 Route::get('/login_match', [UserController::class, 'login_match'])->name('login_match');
+Route::get('/login_2fa', [UserController::class, 'login_2fa'])->name('login_2fa');
 Route::get('register', [UserController::class, 'register'])->name('register');
 Route::post('/register/save', [UserController::class, 'register_save'])->name('register_save');
 Route::get('/logout', [UserController::class, 'logout'])->name('logout');
@@ -22,8 +21,11 @@ Route::get('password/reset/{id}/{time}', [UserController::class, 'verifyResetLin
 Route::post('password/reset/{id}', [UserController::class, 'updatePassword'])->name('update_password');
 
 Route::group(['middleware' => ['auth','verified']], function () {
+    Route::get('/enable-2fa/{id}', [UserController::class,'enable2Fa'])->name('enable-2fa');
+    Route::post('/verify-2fa/{id}', [UserController::class,'verify2Fa'])->name('verify-2fa');
+    Route::post('/verifyotp',[UserController::class,'verifyotp'])->name('verifyotp');
     Route::view('/Welcome_users','welcomeuser')->name('Welcome_users');
-    Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
+    Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard')->middleware('twowayauth');
     Route::get('/dashboard', [UserController::class, 'count'])->name('dashboard');
     //permissions Routes
     Route::get('/permissions', [PermissionController::class, 'index'])->name('permissions.index');
@@ -55,6 +57,9 @@ Route::group(['middleware' => ['auth','verified']], function () {
     Route::get('delete_posts/{id}', [PostController::class, 'destroy'])->name('posts.destroy')->middleware('permission:delete-post');
     Route::post('/posts/search', [PostController::class, 'search'])->name('posts.search')->middleware('permission:view-post');
     Route::put('update_posts/{id}', [PostController::class, 'update'])->name('posts.update')->middleware( 'permission:update-post');
+    Route::post('/post/toggle/{id}', [PostController::class, 'toggleStatus'])->name('post.toggle')->middleware('permission:publish-posts');
+    Route::get('/posts/tableview', [PostController::class, 'tableview'])->name('posts.tableview');
+
 
 
     Route::post('/comments',[CommentController::class, 'store'])->name('comments.store');
@@ -69,7 +74,5 @@ Route::get('/blogs/show/{slug}', [BlogController::class, 'show'])->name('blogs.s
 Route::get("/blogs",[BlogController::class, 'index'])->name('blogs.index');
 Route::post('/blogs/search', [BlogController::class, 'search'])->name('blogs.search');
 Route::get('/comments/{postID}',[CommentController::class, 'index'])->name('comments.index');
-
-
 
 

@@ -110,5 +110,32 @@ class PostController extends Controller
         $posts = $posts->get();
         return view('posts.search', compact('posts'));
     }
+    public function toggleStatus($id)
+    {
+        $post = Post::findorfail($id);
+
+        if (!$post) {
+            return response()->json(['message' => 'Post not found'], 404);
+        }
+        $post->is_published = !$post->is_published;
+        $post->save();
+        return response()->json([
+            'message' => 'Post status updated successfully',
+            'is_published' => $post->is_published,
+        ]);
+    }
+
+    public function tableview(Request $request){
+        $posts = Post::with(['tags','user'])->get();
+        $tags = Tag::all();
+        if($request->type === 'gird-view-btn'){
+           return view('posts.gird-view', compact('posts', 'tags'));
+
+        }
+        if($request->type === 'table-view-btn'){
+            return view('posts.tableview', compact('posts'));
+        }
+
+    }
 
 }

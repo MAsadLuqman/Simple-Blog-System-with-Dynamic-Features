@@ -9,7 +9,6 @@
                    <div class=" mt-4">
                        <script>
                            $(document).ready(function (){
-
                                toastr.error("{{Session::get('success')}}");
                                toastr.option = {
                                    "progressBar" : true,
@@ -21,61 +20,34 @@
                @endif
            </div>
         </x-slot>
-    @can('create-post')
-        <a href="{{route('posts.create')}}" class="btn btn-primary mb-3">Add Blogs</a>
-    @endcan
-    <div class="blog-master">
-        <div class="container">
-            <form method="post" id="searchForm">
-                @csrf
-                <div class="row">
-                <div class="col-md-3 mb-3">
-                    <input type="Date" name="date" class="form-control" id="searchbydate" placeholder="Search By Date">
-                </div>
-                <div class="col-md-3 mb-3">
-                    <input type="text" name="title" class="form-control" id="searchbytitle" placeholder="Search By Title">
-                </div>
-                <div class="col-md-3 mb-3">
-                    <select name="tags" id="tags" class="form-control" >
-                        <option value="tags" disabled>Search By Tags</option>
-                        @forelse($tags as $tag)
-                            <option value="{{ $tag->id }}">{{ $tag->name }}</option>
-                        @empty
-                            <option value="">No tags</option>
-                        @endforelse
 
-                    </select>
-                </div>
-                    <div class="col-md-3 mb-3">
-                        <button type="submit" id="search-btn"  class="btn btn-info">Search</button>
-                    </div>
-                </div>
-            </form>
-            <div class="row" id="postssearch">
-                @foreach($posts as $post)
-                    <div class="col-md-4">
-                        <div class="card mb-4">
-                            <img src="{{ asset('storage/images/post_img/') }}/{{ $post->image }}" class="card-img-top"
-                                 alt="Blog Image">
-                            <div class="card-body text-center">
-                                <h5 class="card-title">{{$post->title}}</h5>
-                                <p class="card-text"><strong>Author:</strong> {{$post->user->name}}
-                                    <br> <b>Published on:</b> {{$post->updated_at->format('j F, Y')}}</p>
-                                <a href="{{route('posts.show',$post->slug)}}" class="btn btn-outline-info">Read More</a>
-                                <div class="mt-3">
-                                    @can('update-post')
-                                        <a href="{{route('posts.edit',$post->id)}}" class="btn btn-primary">Edit</a>
-                                    @endcan
-                                    @can('delete-post')
-                                        <a href="#" onclick="deletePost('{{ route('posts.destroy', $post->id) }}')"
-                                           class="btn btn-danger">Delete</a>
-                                    @endcan
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
+            <button onclick="change('table-view-btn')" id="table-view-btn" class="btn btn-info mt-3 mb-3">Table view</button>
+            <button onclick="change('gird-view-btn')" id="Gird-view-btn" class="btn btn-info mt-3 mb-3">Gird view</button>
+            @can('create-post')
+                <a href="{{route('posts.create')}}" class="btn btn-primary mt-3 mb-3">Add Blogs</a>
+            @endcan
+
+        <div id="post-view">
+            <div class="auto-load text-center" style="display: none;">
+                <svg version="1.1" id="L9" xmlns="http://www.w3.org/2000/svg"
+                     xmlns:xlink="http://www.w3.org/1999/xlink"
+                     x="0px" y="0px" height="60" viewBox="0 0 100 100" enable-background="new 0 0 0 0"
+                     xml:space="preserve">
+            <path fill="#000"
+                  d="M73,50c0-12.7-10.3-23-23-23S27,37.3,27,50 M30.9,50c0-10.5,8.5-19.1,19.1-19.1S69.1,39.5,69.1,50">
+
+                <animateTransform attributeName="transform" attributeType="XML" type="rotate" dur="1s"
+
+                                  from="0 50 50" to="360 50 50" repeatCount="indefinite"/>
+
+            </path>
+
+        </svg>
+
             </div>
+        </div>
+            <div>
+
             <div class="d-flex justify-content-center mt-4">
                 {{ $posts->links('pagination::bootstrap-5') }}
             </div>
@@ -100,7 +72,6 @@
             </div>
         </div>
 
-    </div>
         <x-slot name="postssearch">
             <script>
                 $(document).on('submit', '#searchForm', function (e) {
@@ -130,6 +101,58 @@
                         }
                     });
                 });
+                    $(document).ready(function () {
+                        change('table-view-btn')
+                    $(document).on('change','.toggle-status', function () {
+                        const postId = $(this).data('id');
+                        const is_published = $(this).is(':checked') ? 1 : 0;
+
+                        $.ajax({
+                            url: `/post/toggle/${postId}`,
+                            type: 'POST',
+                            data: {
+                                _token: '{{ csrf_token() }}',
+                                is_published: is_published
+                            },
+                            success: function (response) {
+                                toastr.success(response.message);
+                                toastr.option = {
+                                    "progressBar" : true,
+                                    "positionClass": "toast-bottom-right",
+                                }
+                                ;
+                            },
+                            error: function (xhr) {
+                                alert('An error occurred: ' + xhr.responseJSON.message);
+                            }
+                        });
+                    });
+                });
+
+                    function change(type){
+                        let url = "{{ route('posts.tableview') }}";
+                        $("#table-view").html('');
+
+
+                        $.ajax({
+                            type: "GET",
+                            url: url,
+                            data: {type:type},
+                            beforeSend: function () {
+                                $('.auto-load').show();
+                            },
+                            success: function (response) {
+                                console.log(response);
+                                if (response.status === 404) {
+                                    console.log("error");
+                                } else {
+                                    $("#post-view").html(response);
+                                    $('.auto-load').hide();
+                                }
+                            }
+                        });
+                    }
+
             </script>
 
         </x-slot>

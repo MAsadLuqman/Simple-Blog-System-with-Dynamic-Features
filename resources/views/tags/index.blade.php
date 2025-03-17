@@ -104,7 +104,7 @@
             },
 
             beforeSend: function (){
-                $("#save-btn").prop("disabled", true).html('Processing');
+                $(".save_btn").prop("disabled", true).html('Processing');
             },
 
             success: function (response) {
@@ -167,7 +167,7 @@
                 success: function () {
                     fetch_tags();
                 }
-            });
+            });q
         } else {
             return false;
         }

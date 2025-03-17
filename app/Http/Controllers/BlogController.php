@@ -8,8 +8,8 @@ use Illuminate\Http\Request;
 class BlogController extends Controller
 {
     public function index(){
-        $posts = Post::with('tags','user')->paginate(6
-        );
+        $posts = Post::with('tags','user')->where('is_published', true)->paginate(6);
+
         return view('public.blogs', compact('posts'));
     }
     public function show($slug){
