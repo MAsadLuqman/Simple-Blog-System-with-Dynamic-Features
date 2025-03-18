@@ -81,5 +81,3 @@ Route::get('/blogs/show/{slug}', [BlogController::class, 'show'])->name('blogs.s
 Route::get("/blogs",[BlogController::class, 'index'])->name('blogs.index');
 Route::post('/blogs/search', [BlogController::class, 'search'])->name('blogs.search');
 Route::get('/comments/{postID}',[CommentController::class, 'index'])->name('comments.index');
-
-

@@ -42,7 +42,8 @@ class SocialController extends Controller
 
     public function redirectToGithub()
     {
-        return Socialite::driver('github')->redirect();
+  return Socialite::driver('github')->redirect();
+
     }
 
     public function handleGithubCallback()
@@ -50,9 +51,11 @@ class SocialController extends Controller
         try {
             $user = Socialite::driver('github')->user();
             $finduser = User::where('email', $user->email)->first();
+
             if ($finduser) {
                 Auth::login($finduser);
                 return redirect()->route('dashboard');
+
             } else {
                 $newUser = User::create([
                     'name' => $user->name,
@@ -71,3 +74,4 @@ class SocialController extends Controller
         }
     }
 }
+
