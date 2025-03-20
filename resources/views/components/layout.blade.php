@@ -63,6 +63,11 @@
                         <a href="{{route('permissions.index')}}" class="sidebar-link">Permissions</a>
                     </span>
                 </li>
+                <li data-bs-toggle="tooltip" data-bs-placement="right" title="Messages">
+                    <i class="fas fa-money-bill-alt"></i><span class="sidebar-text">
+                        <a href="{{route('plans.index')}}" class="sidebar-link">Plans</a>
+                    </span>
+                </li>
                 <li data-bs-toggle="tooltip" data-bs-placement="right" title="Logout">
                     <i class="fas fa-sign-out-alt"></i><span class="sidebar-text">
                         <a href="{{route('logout')}}" class="sidebar-link">Logout</a>

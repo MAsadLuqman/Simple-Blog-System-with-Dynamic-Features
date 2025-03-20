@@ -1,6 +1,11 @@
 <?php
 
-use App\Http\Controllers\{BlogController, CommentController, MailController, SocialController};
+use App\Http\Controllers\{BlogController,
+    CommentController,
+    MailController,
+    PlanController,
+    SocialController,
+    StripeController};
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\TagController;
@@ -70,8 +75,13 @@ Route::group(['middleware' => ['auth','verified']], function () {
 
 
     Route::post('/comments',[CommentController::class, 'store'])->name('comments.store');
-
     Route::get("/blogs",[BlogController::class, 'index'])->name('posts.index');
+
+    Route::get('/plans/create', [PlanController::class, 'create'])->name('plans.create');
+    Route::post('/plans/store', [PlanController::class, 'store'])->name('plans.store');
+    Route::get('/plans', [PlanController::class, 'index'])->name('plans.index');
+    Route::post('stripe/checkout',[StripeController::class, 'stripeCheckout'])->name('stripe.checkout');
+    Route::get('stripe/checkout/success', [StripeController::class,'stripeCheckoutSuccess'])->name('stripe.checkout.success');
 
 
 
