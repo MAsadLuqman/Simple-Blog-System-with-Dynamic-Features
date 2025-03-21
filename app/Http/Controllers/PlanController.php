@@ -20,6 +20,7 @@ class PlanController extends Controller
             'description' => 'required',
             'price' => 'required',
             'stripe_id'=> 'required',
+            'price_id'=> 'required'
         ]);
         $plan = Plan::create($data);
         return redirect()->route('plans.index')->with('success','Plan created successfully');

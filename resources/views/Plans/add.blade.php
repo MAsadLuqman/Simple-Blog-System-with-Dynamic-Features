@@ -28,10 +28,17 @@
                             <span class="alert text-danger">{{ $message }}</span>
                             @enderror
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-2">
                             <label for="" class="fw-bold">Stripe ID:</label>
                             <input type="text" name="stripe_id" placeholder="Enter Stripe Id" class="form-control">
                             @error('stripe_id')
+                            <span class="alert text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="col-md-2">
+                            <label for="" class="fw-bold">Price ID:</label>
+                            <input type="text" name="price_id" placeholder="Enter Price Id" class="form-control">
+                            @error('price_id')
                             <span class="alert text-danger">{{ $message }}</span>
                             @enderror
                         </div>

@@ -24,6 +24,7 @@ Route::get('password/reset', [UserController::class, 'passwordReset'])->name('pa
 Route::post('password/email', [UserController::class, 'sendResetLinkEmail'])->name('password.email');
 Route::get('password/reset/{id}/{time}', [UserController::class, 'verifyResetLink'])->name('update.password');
 Route::post('password/reset/{id}', [UserController::class, 'updatePassword'])->name('update_password');
+Route::view('/Welcome_users','welcomeuser')->name('Welcome_users');
 
 Route::controller(SocialController::class)->group(function () {
     Route::get('/login/google', 'redirectToGoggle')->name('login.google');
@@ -36,7 +37,6 @@ Route::group(['middleware' => ['auth','verified']], function () {
     Route::get('/enable-2fa/{id}', [UserController::class,'enable2Fa'])->name('enable-2fa');
     Route::post('/verify-2fa/{id}', [UserController::class,'verify2Fa'])->name('verify-2fa');
     Route::post('/verifyotp',[UserController::class,'verifyotp'])->name('verifyotp');
-    Route::view('/Welcome_users','welcomeuser')->name('Welcome_users');
     Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard')->middleware('twowayauth');
     Route::get('/dashboard', [UserController::class, 'count'])->name('dashboard');
     //permissions Routes
@@ -83,8 +83,7 @@ Route::group(['middleware' => ['auth','verified']], function () {
     Route::post('stripe/checkout',[StripeController::class, 'stripeCheckout'])->name('stripe.checkout');
     Route::get('stripe/checkout/success', [StripeController::class,'stripeCheckoutSuccess'])->name('stripe.checkout.success');
 
-
-
+//    web hook
 });
 
 Route::get('/blogs/show/{slug}', [BlogController::class, 'show'])->name('blogs.show');

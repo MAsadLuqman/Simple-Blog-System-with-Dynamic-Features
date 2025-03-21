@@ -10,6 +10,7 @@ class Plan extends Model
             'name',
             'description',
             'price',
-            'stripe_id'
+            'stripe_id',
+            'price_id'
         ];
 }
