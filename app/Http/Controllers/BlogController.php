@@ -16,7 +16,7 @@ class BlogController extends Controller
         $post = Post::with('tags','user')->where('slug', $slug)->first();
         $last_post = Post::with('tags','user')->latest()->paginate(5);
 
-        return view('public.view-blogs', compact(['post', 'last_post']));
+        return view('public.show', compact(['post', 'last_post']));
     }
     public function search(Request $request){
         $posts = Post::query();

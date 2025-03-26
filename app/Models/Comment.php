@@ -15,6 +15,7 @@ class Comment extends Model
         'user_id',
         'commentable_id',
         'commentable_type',
+        'parent_id',
 
     ];
     public function commentable(): MorphTo
@@ -24,5 +25,14 @@ class Comment extends Model
 
     public function user(): BelongsTo{
         return $this->belongsTo(User::class);
+    }
+    public function replies()
+    {
+        return $this->hasMany(Comment::class, 'parent_id');
+    }
+
+    public function parent()
+    {
+        return $this->belongsTo(Comment::class, 'parent_id');
     }
 }

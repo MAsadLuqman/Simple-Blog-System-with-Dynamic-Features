@@ -72,9 +72,13 @@ Route::group(['middleware' => ['auth','verified']], function () {
     Route::post('/post/toggle/{id}', [PostController::class, 'toggleStatus'])->name('post.toggle')->middleware('permission:publish-posts');
     Route::get('/posts/tableview', [PostController::class, 'tableview'])->name('posts.tableview');
 
+    Route::get('/posts/show/{slug}', [PostController::class, 'show'])->name('posts.show')->middleware('permission:view-post');
+
+
 
 
     Route::post('/comments',[CommentController::class, 'store'])->name('comments.store');
+    Route::post('/comments-reply',[CommentController::class, 'reply'])->name('reply.store');
     Route::get("/blogs",[BlogController::class, 'index'])->name('posts.index');
 
     Route::get('/plans/create', [PlanController::class, 'create'])->name('plans.create');
@@ -90,3 +94,4 @@ Route::get('/blogs/show/{slug}', [BlogController::class, 'show'])->name('blogs.s
 Route::get("/blogs",[BlogController::class, 'index'])->name('blogs.index');
 Route::post('/blogs/search', [BlogController::class, 'search'])->name('blogs.search');
 Route::get('/comments/{postID}',[CommentController::class, 'index'])->name('comments.index');
+Route::get('/comments-view/{postID}',[CommentController::class, 'show'])->name('comments.view');
