@@ -186,12 +186,12 @@ class UserController extends Controller
             $userId= Crypt::decryptString($id);
             $user = User::findorfail($userId);
             $user->update(['email_verified_at'=>now()]);
-
+            auth()->login($user);
+            return redirect()->route('Welcome_users');
 
         }catch (\Exception $exception){
             dd($exception);
         }
-        return redirect()->route('Welcome_users');
     }
 
     public function passwordReset(){

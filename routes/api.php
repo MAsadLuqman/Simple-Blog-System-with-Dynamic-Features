@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\StripeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 
+Route::post('/webhook',[StripeController::class, 'webhook'])->name('webhook');
 
 Route::post('register', [UserController::class, 'register']);
 Route::get('sendmail/{id}', [UserController::class, 'sendmail']);

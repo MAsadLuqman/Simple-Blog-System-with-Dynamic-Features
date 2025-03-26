@@ -27,7 +27,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at',
         'google2fa',
         'google2fa_secret',
-        'google_id'
+        'google_id',
+        'subs-plan-id',
+        'subs-status',
     ];
 
     public function posts()
